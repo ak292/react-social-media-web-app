@@ -1,6 +1,6 @@
-import React from "react"
-import Page from "./Page"
-import { Link } from "react-router-dom"
+import React from "react";
+import Page from "./Page";
+import { Link } from "react-router-dom";
 
 function NotFound() {
   return (
@@ -12,7 +12,7 @@ function NotFound() {
         </p>
       </div>
     </Page>
-  )
+  );
 }
 
-export default NotFound
+export default NotFound;

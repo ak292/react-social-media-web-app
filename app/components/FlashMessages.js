@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect } from "react";
 
 function FlashMessages(props) {
   return (
@@ -8,10 +8,10 @@ function FlashMessages(props) {
           <div key={index} className="alert alert-success text-center floating-alert shadow-sm">
             {msg}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
-export default FlashMessages
+export default FlashMessages;

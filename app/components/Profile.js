@@ -1,16 +1,16 @@
-import React, { useEffect, useContext } from "react"
-import Page from "./Page"
-import { useParams, NavLink, Routes, Route } from "react-router-dom"
-import Axios from "axios"
-import StateContext from "../StateContext"
-import ProfilePosts from "./ProfilePosts"
-import ProfileFollowers from "./ProfileFollowers"
-import ProfileFollowing from "./ProfileFollowing"
-import { useImmer } from "use-immer"
+import React, { useEffect, useContext } from "react";
+import Page from "./Page";
+import { useParams, NavLink, Routes, Route } from "react-router-dom";
+import Axios from "axios";
+import StateContext from "../StateContext";
+import ProfilePosts from "./ProfilePosts";
+import ProfileFollowers from "./ProfileFollowers";
+import ProfileFollowing from "./ProfileFollowing";
+import { useImmer } from "use-immer";
 
 function Profile() {
-  const { username } = useParams()
-  const appState = useContext(StateContext)
+  const { username } = useParams();
+  const appState = useContext(StateContext);
   const [state, setState] = useImmer({
     followActionLoading: false,
     startFollowingRequestCount: 0,
@@ -19,93 +19,93 @@ function Profile() {
       profileUsername: "...",
       profileAvatar: "https://gravatar.com/avatar/placeholder?s=128",
       isFollowing: false,
-      counts: { postCount: "", followerCount: "", followingCount: "" }
-    }
-  })
+      counts: { postCount: "", followerCount: "", followingCount: "" },
+    },
+  });
 
   useEffect(() => {
-    const ourRequest = Axios.CancelToken.source()
+    const ourRequest = Axios.CancelToken.source();
 
     async function fetchData() {
       try {
-        const response = await Axios.post(`/profile/${username}`, { token: appState.user.token }, { cancelToken: ourRequest.token })
-        setState(draft => {
-          draft.profileData = response.data
-        })
+        const response = await Axios.post(`/profile/${username}`, { token: appState.user.token }, { cancelToken: ourRequest.token });
+        setState((draft) => {
+          draft.profileData = response.data;
+        });
       } catch (e) {
-        console.log("There was a problem.")
+        console.log("There was a problem.");
       }
     }
-    fetchData()
+    fetchData();
     return () => {
-      ourRequest.cancel()
-    }
-  }, [username])
+      ourRequest.cancel();
+    };
+  }, [username]);
 
   useEffect(() => {
     if (state.startFollowingRequestCount) {
-      setState(draft => {
-        draft.followActionLoading = true
-      })
+      setState((draft) => {
+        draft.followActionLoading = true;
+      });
 
-      const ourRequest = Axios.CancelToken.source()
+      const ourRequest = Axios.CancelToken.source();
 
       async function fetchData() {
         try {
-          const response = await Axios.post(`/addFollow/${state.profileData.profileUsername}`, { token: appState.user.token }, { cancelToken: ourRequest.token })
-          setState(draft => {
-            draft.profileData.isFollowing = true
-            draft.profileData.counts.followerCount++
-            draft.followActionLoading = false
-          })
+          const response = await Axios.post(`/addFollow/${state.profileData.profileUsername}`, { token: appState.user.token }, { cancelToken: ourRequest.token });
+          setState((draft) => {
+            draft.profileData.isFollowing = true;
+            draft.profileData.counts.followerCount++;
+            draft.followActionLoading = false;
+          });
         } catch (e) {
-          console.log("There was a problem.")
+          console.log("There was a problem.");
         }
       }
-      fetchData()
+      fetchData();
       return () => {
-        ourRequest.cancel()
-      }
+        ourRequest.cancel();
+      };
     }
-  }, [state.startFollowingRequestCount])
+  }, [state.startFollowingRequestCount]);
 
   useEffect(() => {
     if (state.stopFollowingRequestCount) {
-      setState(draft => {
-        draft.followActionLoading = true
-      })
+      setState((draft) => {
+        draft.followActionLoading = true;
+      });
 
-      const ourRequest = Axios.CancelToken.source()
+      const ourRequest = Axios.CancelToken.source();
 
       async function fetchData() {
         try {
-          const response = await Axios.post(`/removeFollow/${state.profileData.profileUsername}`, { token: appState.user.token }, { cancelToken: ourRequest.token })
-          setState(draft => {
-            draft.profileData.isFollowing = false
-            draft.profileData.counts.followerCount--
-            draft.followActionLoading = false
-          })
+          const response = await Axios.post(`/removeFollow/${state.profileData.profileUsername}`, { token: appState.user.token }, { cancelToken: ourRequest.token });
+          setState((draft) => {
+            draft.profileData.isFollowing = false;
+            draft.profileData.counts.followerCount--;
+            draft.followActionLoading = false;
+          });
         } catch (e) {
-          console.log("There was a problem.")
+          console.log("There was a problem.");
         }
       }
-      fetchData()
+      fetchData();
       return () => {
-        ourRequest.cancel()
-      }
+        ourRequest.cancel();
+      };
     }
-  }, [state.stopFollowingRequestCount])
+  }, [state.stopFollowingRequestCount]);
 
   function startFollowing() {
-    setState(draft => {
-      draft.startFollowingRequestCount++
-    })
+    setState((draft) => {
+      draft.startFollowingRequestCount++;
+    });
   }
 
   function stopFollowing() {
-    setState(draft => {
-      draft.stopFollowingRequestCount++
-    })
+    setState((draft) => {
+      draft.stopFollowingRequestCount++;
+    });
   }
 
   return (
@@ -142,7 +142,7 @@ function Profile() {
         <Route path="following" element={<ProfileFollowing />} />
       </Routes>
     </Page>
-  )
+  );
 }
 
-export default Profile
+export default Profile;

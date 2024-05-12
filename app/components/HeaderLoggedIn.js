@@ -1,21 +1,21 @@
-import React, { useEffect, useContext } from "react"
-import { Link } from "react-router-dom"
-import DispatchContext from "../DispatchContext"
-import StateContext from "../StateContext"
-import ReactTooltip from "react-tooltip"
+import React, { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import DispatchContext from "../DispatchContext";
+import StateContext from "../StateContext";
+import ReactTooltip from "react-tooltip";
 
 function HeaderLoggedIn(props) {
-  const appDispatch = useContext(DispatchContext)
-  const appState = useContext(StateContext)
+  const appDispatch = useContext(DispatchContext);
+  const appState = useContext(StateContext);
 
   function handleLogout() {
-    appDispatch({ type: "logout" })
-    appDispatch({ type: "flashMessage", value: "You have successfully logged out." })
+    appDispatch({ type: "logout" });
+    appDispatch({ type: "flashMessage", value: "You have successfully logged out." });
   }
 
   function handleSearchIcon(e) {
-    e.preventDefault()
-    appDispatch({ type: "openSearch" })
+    e.preventDefault();
+    appDispatch({ type: "openSearch" });
   }
 
   return (
@@ -40,7 +40,7 @@ function HeaderLoggedIn(props) {
         Sign Out
       </button>
     </div>
-  )
+  );
 }
 
-export default HeaderLoggedIn
+export default HeaderLoggedIn;

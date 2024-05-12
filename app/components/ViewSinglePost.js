@@ -1,42 +1,42 @@
-import React, { useEffect, useState, useContext } from "react"
-import Page from "./Page"
-import { useParams, Link, useNavigate } from "react-router-dom"
-import Axios from "axios"
-import LoadingDotsIcon from "./LoadingDotsIcon"
-import ReactMarkdown from "react-markdown"
-import ReactTooltip from "react-tooltip"
-import NotFound from "./NotFound"
-import StateContext from "../StateContext"
-import DispatchContext from "../DispatchContext"
+import React, { useEffect, useState, useContext } from "react";
+import Page from "./Page";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import Axios from "axios";
+import LoadingDotsIcon from "./LoadingDotsIcon";
+import ReactMarkdown from "react-markdown";
+import ReactTooltip from "react-tooltip";
+import NotFound from "./NotFound";
+import StateContext from "../StateContext";
+import DispatchContext from "../DispatchContext";
 
 function ViewSinglePost(props) {
-  const navigate = useNavigate()
-  const appState = useContext(StateContext)
-  const appDispatch = useContext(DispatchContext)
-  const { id } = useParams()
-  const [isLoading, setIsLoading] = useState(true)
-  const [post, setPost] = useState()
+  const navigate = useNavigate();
+  const appState = useContext(StateContext);
+  const appDispatch = useContext(DispatchContext);
+  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const [post, setPost] = useState();
 
   useEffect(() => {
-    const ourRequest = Axios.CancelToken.source()
+    const ourRequest = Axios.CancelToken.source();
 
     async function fetchPost() {
       try {
-        const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token })
-        setPost(response.data)
-        setIsLoading(false)
+        const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token });
+        setPost(response.data);
+        setIsLoading(false);
       } catch (e) {
-        console.log("There was a problem or the request was cancelled.")
+        console.log("There was a problem or the request was cancelled.");
       }
     }
-    fetchPost()
+    fetchPost();
     return () => {
-      ourRequest.cancel()
-    }
-  }, [id])
+      ourRequest.cancel();
+    };
+  }, [id]);
 
   if (!isLoading && !post) {
-    return <NotFound />
+    return <NotFound />;
   }
 
   if (isLoading)
@@ -44,32 +44,32 @@ function ViewSinglePost(props) {
       <Page title="...">
         <LoadingDotsIcon />
       </Page>
-    )
+    );
 
-  const date = new Date(post.createdDate)
-  const dateFormatted = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  const date = new Date(post.createdDate);
+  const dateFormatted = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 
   function isOwner() {
     if (appState.loggedIn) {
-      return appState.user.username == post.author.username
+      return appState.user.username == post.author.username;
     }
-    return false
+    return false;
   }
 
   async function deleteHandler() {
-    const areYouSure = window.confirm("Do you really want to delete this post?")
+    const areYouSure = window.confirm("Do you really want to delete this post?");
     if (areYouSure) {
       try {
-        const response = await Axios.delete(`/post/${id}`, { data: { token: appState.user.token } })
+        const response = await Axios.delete(`/post/${id}`, { data: { token: appState.user.token } });
         if (response.data == "Success") {
           // 1. display a flash message
-          appDispatch({ type: "flashMessage", value: "Post was successfully deleted." })
+          appDispatch({ type: "flashMessage", value: "Post was successfully deleted." });
 
           // 2. redirect back to the current user's profile
-          navigate(`/profile/${appState.user.username}`)
+          navigate(`/profile/${appState.user.username}`);
         }
       } catch (e) {
-        console.log("There was a problem.")
+        console.log("There was a problem.");
       }
     }
   }
@@ -103,7 +103,7 @@ function ViewSinglePost(props) {
         <ReactMarkdown children={post.body} allowedElements={["p", "br", "strong", "em", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li"]} />
       </div>
     </Page>
-  )
+  );
 }
 
-export default ViewSinglePost
+export default ViewSinglePost;
