@@ -24,7 +24,7 @@ function Chat() {
   }, [appState.isChatOpen]);
 
   useEffect(() => {
-    socket.current = io(process.env.BACKENDURL || "https://backend-api-wv4a.onrender.com");
+    socket.current = io(process.env.BACKENDURL || "https://backend-api-38ag.onrender.com");
 
     socket.current.on("chatFromServer", (message) => {
       setState((draft) => {
