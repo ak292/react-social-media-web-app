@@ -13,4 +13,4 @@ This is a social media web application created with React. It allows users to si
 
 Since this project requires a lot of set up and back-end configuration to run (like setting up your own MongoDB Atlas account and DB), I decided to host it publically incase anyone would like to view it as opposed to placing instructions on how to run it locally.
 
-The finished product was deployed and can be found at this link: https://profound-figolla-298d5f.netlify.app/ - The hosting service used was free-tier so the performance is not optimal due to the server shutting down and needing to restart when inactive.
+The finished product was deployed and can be found at this link: https://master--deluxe-horse-c91768.netlify.app/ - The hosting service used was free-tier so it takes some time to load back up the first time due to the server shutting down and needing to restart when inactive.
